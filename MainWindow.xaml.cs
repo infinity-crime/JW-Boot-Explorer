@@ -39,6 +39,10 @@ namespace JW_Boot_Explorer
 
             _computer.Open(); // запуск мониторинга для доступа к данным
 
+            /* Получение названия процессора и видеокарты при загрузке программы */
+            CpuNameTextBlock.Text = $"CPU name: {GetCpuName()}";
+            GpuNameTextBlock.Text = $"GPU name: {GetGpuName()}";
+
             _timer = new DispatcherTimer
             {
                 Interval = TimeSpan.FromSeconds(0.5)
@@ -103,6 +107,34 @@ namespace JW_Boot_Explorer
 
             var usedMemory = totalMemory - freeMemory;
             return (usedMemory, totalMemory);
+        }
+
+        private string GetCpuName()
+        {
+            string cpuName = "Unknown CPU";
+
+            var searcher = new ManagementObjectSearcher("select Name from Win32_Processor");
+            foreach (var obj in searcher.Get())
+            {
+                cpuName = obj["Name"].ToString();
+            }
+
+            return cpuName;
+        }
+
+        private string GetGpuName()
+        {
+            string gpuName = "Unknown GPU";
+
+            foreach (var hardware in _computer.Hardware)
+            {
+                if (hardware.HardwareType == HardwareType.GpuNvidia || hardware.HardwareType == HardwareType.GpuAmd)
+                {
+                    gpuName = hardware.Name;
+                }
+            }
+
+            return gpuName;
         }
     }
 }
