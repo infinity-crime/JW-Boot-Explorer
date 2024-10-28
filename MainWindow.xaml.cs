@@ -25,6 +25,9 @@ namespace JW_Boot_Explorer
         private readonly Computer _computer;
         /* Таймер WPF для выполнения задачи через определенные интервалы */
         private DispatcherTimer _timer;
+        private List<double> _cpuDataPoints;
+        private List<double> _ramDataPoints;
+        private const int MaxDataPoints = 50;
 
         public MainWindow()
         {
@@ -38,6 +41,9 @@ namespace JW_Boot_Explorer
             };
 
             _computer.Open(); // запуск мониторинга для доступа к данным
+
+            _cpuDataPoints = new List<double>();
+            _ramDataPoints = new List<double>();
 
             /* Получение названия процессора и видеокарты при загрузке программы */
             CpuNameTextBlock.Text = $"CPU name: {GetCpuName()}";
@@ -78,6 +84,10 @@ namespace JW_Boot_Explorer
                     }
                 }
             }
+
+            AddDataPoint(_cpuDataPoints, cpuUsage);
+            AddDataPoint(_ramDataPoints, memoryInfo.used / memoryInfo.total * 100);
+            UpdateChart();
         }
 
         private float GetCpuUsage() // метод позволяющий получить загрузку процессора в момент вызова
@@ -135,6 +145,31 @@ namespace JW_Boot_Explorer
             }
 
             return gpuName;
+        }
+
+        private void AddDataPoint(List<double> dataPoints, double newPoint)
+        {
+            if (dataPoints.Count >= MaxDataPoints)
+                dataPoints.RemoveAt(0);
+
+            dataPoints.Add(newPoint);
+        }
+
+        private void UpdateChart()
+        {
+            CpuUsagePolyline.Points.Clear();
+            RamUsagePolyline.Points.Clear();
+
+            double xStep = ChartCanvas.ActualWidth / MaxDataPoints;
+            for (int i = 0; i < _cpuDataPoints.Count; i++)
+            {
+                double x = i * xStep;
+                double cpuY = ChartCanvas.ActualHeight - (_cpuDataPoints[i] / 100 * ChartCanvas.ActualHeight);
+                double ramY = ChartCanvas.ActualHeight - (_ramDataPoints[i] / 100 * ChartCanvas.ActualHeight);
+
+                CpuUsagePolyline.Points.Add(new Point(x, cpuY));
+                RamUsagePolyline.Points.Add(new Point(x, ramY));
+            }
         }
     }
 }
