@@ -5,8 +5,23 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:JW_Boot_Explorer"
         mc:Ignorable="d"
-        Title="JW Boot Explorer" Height="450" Width="800">
+        Title="JW Boot Explorer" Height="450" Width="1000">
     <Grid>
-        
+        <StackPanel VerticalAlignment="Top">
+            <StackPanel Background="Gray" MaxHeight="100" VerticalAlignment="Top">
+                <TextBlock Text="Welcome to JW Boot Explorer" FontSize="20" TextAlignment="Center" FontWeight="Bold" Padding="10"></TextBlock>
+            </StackPanel>
+            <StackPanel>
+                <TextBlock x:Name="CpuUsageTextBlock" FontSize="20" Margin="0,10,0,10" Text="CPU Usage: " />
+                <TextBlock x:Name="RamUsageTextBlock" FontSize="20" Margin="0,10,0,10" Text="RAM Usage: " />
+                <TextBlock x:Name="GpuUsageTextBlock" FontSize="20" Margin="0,10,0,10" Text="GPU Usage: " />
+            </StackPanel>
+
+            <StackPanel Margin="0,20,0,0">
+                <TextBlock x:Name="CpuNameTextBlock" FontSize="20" Margin="0,10,0,10" Text="CPU name: " />
+                <TextBlock x:Name="RamNameTextBlock" FontSize="20" Margin="0,10,0,10" Text="RAM name: " />
+                <TextBlock x:Name="GpuNameTextBlock" FontSize="20" Margin="0,10,0,10" Text="GPU name: " />
+            </StackPanel>
+        </StackPanel>
     </Grid>
 </Window>
