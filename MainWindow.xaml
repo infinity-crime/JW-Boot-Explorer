@@ -6,12 +6,15 @@
         xmlns:local="clr-namespace:JW_Boot_Explorer"
         mc:Ignorable="d"
         Title="JW Boot Explorer" Height="718" Width="1000">
-    <Grid>
+    <Grid Background="#00cdff">
+        
         <StackPanel VerticalAlignment="Top">
-            <StackPanel Background="Gray" MaxHeight="100" VerticalAlignment="Top">
+            
+            <StackPanel Background="#006c86" MaxHeight="100" VerticalAlignment="Top">
                 <TextBlock Text="Welcome to JW Boot Explorer" FontSize="20" TextAlignment="Center" FontWeight="Bold" Padding="10"></TextBlock>
             </StackPanel>
-            <StackPanel>
+
+            <StackPanel Background="#3898af" Margin="0 10 0 0">
                 <TextBlock x:Name="CpuUsageTextBlock" FontSize="20" Margin="0,10,0,10" Text="CPU Usage: " />
                 <TextBlock x:Name="RamUsageTextBlock" FontSize="20" Margin="0,10,0,10" Text="RAM Usage: " />
                 <TextBlock x:Name="GpuUsageTextBlock" FontSize="20" Margin="0,10,0,10" Text="GPU Usage: " />
@@ -20,7 +23,7 @@
                 <TextBlock x:Name="GpuTempTextBlock" FontSize="20" Margin="0,10,0,10" Text="GPU Temperature: " />
             </StackPanel>
 
-            <StackPanel Margin="0,20,0,0">
+            <StackPanel Background="#3898af" Margin="0,40,0,0">
                 <TextBlock x:Name="CpuNameTextBlock" FontSize="20" Margin="0,10,0,10" Text="CPU name: " />
                 <TextBlock x:Name="GpuNameTextBlock" FontSize="20" Margin="0,10,0,10" Text="GPU name: " />
             </StackPanel>
@@ -31,7 +34,8 @@
             <Button Content="О создателе" Width="100"/>
         </StackPanel>
 
-        <Canvas x:Name="ChartCanvas" Background="LightGray" Height="200" Margin="0,400,0,0">
+        <Canvas Background="Aqua" x:Name="ChartCanvas" Height="200" Margin="0,420,0,0">
+            
             <Polyline x:Name="CpuUsagePolyline" Stroke="Red" StrokeThickness="2" />
             <Polyline x:Name="RamUsagePolyline" Stroke="Blue" StrokeThickness="2" />
 
@@ -43,6 +47,7 @@
                 <TextBlock Text="CPU Usage" FontSize="12" Foreground="Red" />
                 <TextBlock Text="RAM Usage" FontSize="12" Foreground="Blue" Margin="0,5,0,0" />
             </StackPanel>
+            
         </Canvas>
 
     </Grid>
