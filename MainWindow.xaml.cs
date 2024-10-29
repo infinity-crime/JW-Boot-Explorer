@@ -68,12 +68,30 @@ namespace JW_Boot_Explorer
             var memoryInfo = GetMemoryInfo();
             RamUsageTextBlock.Text = $"RAM Usage: Использованная память - {memoryInfo.used} MB / Свободная память - {memoryInfo.total} MB";
 
+            float? cpuTemperature = null;
+            float? gpuTemperature = null;
+
+
+
             /* Так как через System.Managment не получить данные о видеокарте
             будем получать через LHM */
-            foreach(var hardware in _computer.Hardware)
+            foreach (var hardware in _computer.Hardware)
             {
                 hardware.Update();
-                if(hardware.HardwareType == HardwareType.GpuNvidia || hardware.HardwareType == HardwareType.GpuAmd)
+
+                if (hardware.HardwareType == HardwareType.Cpu)
+                {
+                    foreach (var sensor in hardware.Sensors)
+                    {
+                        if (sensor.SensorType == SensorType.Temperature)
+                        {
+                            cpuTemperature = sensor.Value;
+                            break;
+                        }
+                    }
+                }
+
+                if (hardware.HardwareType == HardwareType.GpuNvidia || hardware.HardwareType == HardwareType.GpuAmd)
                 {
                     foreach (var sensor in hardware.Sensors)
                     {
@@ -81,9 +99,22 @@ namespace JW_Boot_Explorer
                         {
                             GpuUsageTextBlock.Text = $"GPU Usage: {sensor.Value.GetValueOrDefault():F2}%";
                         }
+
+                        if (sensor.SensorType == SensorType.Temperature && sensor.Name == "GPU Core")
+                        {
+                            gpuTemperature = sensor.Value;
+                        }
                     }
                 }
             }
+
+            CpuTempTextBlock.Text = cpuTemperature.HasValue
+                ? $"CPU Temperature: {cpuTemperature.Value:F1} °C"
+                : "CPU Temperature: N/A";
+
+            GpuTempTextBlock.Text = gpuTemperature.HasValue
+                ? $"GPU Temperature: {gpuTemperature.Value:F1} °C"
+                : "GPU Temperature: N/A";
 
             AddDataPoint(_cpuDataPoints, cpuUsage);
             AddDataPoint(_ramDataPoints, memoryInfo.used / memoryInfo.total * 100);
