@@ -1,0 +1,18 @@
+﻿<Window x:Class="JW_Boot_Explorer.WindowAboutCreator"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:JW_Boot_Explorer"
+        mc:Ignorable="d"
+        Title="О Cоздателе JW Boot Explorer" Height="230" Width="330">
+    <Grid>
+        <StackPanel Background="#ff9fc3">
+            <TextBlock Text="JW Boot Explorer version 1.0" FontWeight="Bold" FontSize="16"></TextBlock>
+            <TextBlock Text="Создатель - Жестков Кирилл Эдуардович О734Б" Margin="10 12"></TextBlock>
+            <TextBlock Text="Курсовая работа БГТУ ВОЕНМЕХ 3 семестр" Margin="10 12"></TextBlock>
+            <TextBlock Text="GitHub: https://github.com/infinity-crime" Margin="10 12"></TextBlock>
+            <Button Content="Закрыть" Margin="50 10" Background="AliceBlue" Click="CloseButton_Click"></Button>
+        </StackPanel>
+    </Grid>
+</Window>

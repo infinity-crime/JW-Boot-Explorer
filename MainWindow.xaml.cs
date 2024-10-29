@@ -42,6 +42,9 @@ namespace JW_Boot_Explorer
 
             _computer.Open(); // запуск мониторинга для доступа к данным
 
+            var diskUsage = GetDiskUsage("C");
+            DiskUsageTextBlock.Text = $"Disk C: Usage: {diskUsage}%";
+
             _cpuDataPoints = new List<double>();
             _ramDataPoints = new List<double>();
 
@@ -201,6 +204,28 @@ namespace JW_Boot_Explorer
                 CpuUsagePolyline.Points.Add(new Point(x, cpuY));
                 RamUsagePolyline.Points.Add(new Point(x, ramY));
             }
+        }
+
+        private float GetDiskUsage(string driveLetter)
+        {
+            float diskUsage = 0;
+            var searcher = new ManagementObjectSearcher(
+                $"select FreeSpace, Size from Win32_LogicalDisk where DeviceID = '{driveLetter}:'");
+
+            foreach (var obj in searcher.Get())
+            {
+                float freeSpace = Convert.ToSingle(obj["FreeSpace"]) / (1024 * 1024 * 1024); // GB
+                float totalSpace = Convert.ToSingle(obj["Size"]) / (1024 * 1024 * 1024); // GB
+                diskUsage = ((totalSpace - freeSpace) / totalSpace) * 100;
+            }
+            return diskUsage;
+        }
+
+        private void ButtonAbout_Click(object sender, RoutedEventArgs e)
+        {
+            WindowAboutCreator aboutWin = new WindowAboutCreator();
+            aboutWin.Owner = this;
+            aboutWin.ShowDialog();
         }
     }
 }
